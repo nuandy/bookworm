@@ -3,11 +3,11 @@
   var BookWorm = function(query, parameters) {
     this.init(query, parameters);
   };
-  
+
   BookWorm.URL = function(){
     return 'https://www.googleapis.com/books/v1/volumes';
   };
-  
+
   BookWorm.Extensions = {
 
     extend: function(target, object) {
@@ -18,17 +18,17 @@
 
     jsonp: function(url, callback, callback_name) {
       var head = document.getElementsByTagName('head')[0],
-          script = document.createElement('script');
-          script.type = 'text/javascript';
+          script = document.createElement('script'),
+          script.type = 'text/javascript',
           script.src = url;
-      
+
       window[callback_name] = function(data) {
         callback(data);
         window[callback_name] = undefined;
         try {
           delete window[callback_name];
         } catch(e) {
-          
+
         }
         head.removeChild(script);
       };
@@ -37,9 +37,9 @@
     }
 
   };
-  
-  BookWorm.prototype = { 
-    
+
+  BookWorm.prototype = {
+
     book_authors: function() {
       if (this.response) {
         var books = this.response.items,
@@ -59,13 +59,13 @@
         }
       } else {
         return null;
-      }      
+      }
     },
 
     book_count: function(){
       var count = this.response.totalItems;
       if (count) {
-        return count;  
+        return count;
       } else {
         return null;
       }
@@ -90,7 +90,7 @@
         }
       } else {
         return null;
-      }      
+      }
     },
 
     book_isbns: function() {
@@ -112,7 +112,7 @@
         }
       } else {
         return null;
-      }      
+      }
     },
 
     book_titles: function() {
@@ -134,38 +134,38 @@
         }
       } else {
         return null;
-      }      
+      }
     },
 
     build_params: function(params) {
       var setup = this.parameters;
       var new_params = {};
-      
+
       if (!params) {
         return new_params;
       }
-      
-      for (var key in params) {        
+
+      for (var key in params) {
         if (setup[key]) {
           new_params[key] = params[key] + '';
         }
       }
-      
+
       return new_params;
     },
-    
+
     build_url: function(query, params){
       query = query || this.query_string;
       params = params;
       var param_string = 'q=' + encodeURIComponent(query);
-      
+
       for (var key in params) {
         param_string += '&' + key + '=' + encodeURIComponent(params[key]);
       }
-      
+
       return BookWorm.URL() + '?' + param_string;
-    },    
-    
+    },
+
     callback: 'bookworm_load',
     complete: false,
     loading: false,
@@ -175,22 +175,22 @@
 
     init: function(query, params) {
       var self = this;
-      
+
       self.query_string = query || '';
       self.parameters = self.build_params(params);
       self.url = self.build_url();
-      
+
       return self;
     },
 
     load: function(results) {
-      var extensions = BookWorm.Extensions;
-      var caller = this;
-      var nonce = Date.now();
-      var url = caller.url;
-      var callback = caller.callback + '_' + nonce;
-      caller.loading = true;
-      
+      var extensions = BookWorm.Extensions,
+          caller = this,
+          nonce = Date.now(),
+          url = caller.url,
+          callback = caller.callback + '_' + nonce,
+          caller.loading = true;
+
       var js_function = function(data) {
         caller.loading = false;
         caller.response = data;
@@ -198,21 +198,21 @@
         if (!data.error) {
           caller.successful = true;
         }
-        
+
         if (results) {
-          results(data); 
+          results(data);
         }
       };
-      
+
       url += '&callback=' + callback;
       extensions.jsonp(url, js_function, callback);
     }
-    
+
   };
 
   window.BookWorm = function(query, parameters) {
     return new BookWorm(query,parameters);
   };
   BookWorm.Extensions.extend(window.BookWorm, BookWorm);
-  
+
 })();

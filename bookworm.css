@@ -1,5 +1,5 @@
 body {
-  font-family: arial; sans-serif;
+  font-family: arial, sans-serif;
 }
 
 h1 {
@@ -10,7 +10,7 @@ ul {
   float: left;
   list-style: none;
 }
-    
+
 li {
   height: 206px;
   margin-bottom: 10px;
@@ -22,7 +22,7 @@ li.header {
   font-style: italic;
   height: auto;
   margin-bottom: 5px;
-  text-transform: uppercase;	
+  text-transform: uppercase;
 }
 
 label {
