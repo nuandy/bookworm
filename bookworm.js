@@ -18,8 +18,8 @@
 
     jsonp: function(url, callback, callback_name) {
       var head = document.getElementsByTagName('head')[0],
-          script = document.createElement('script'),
-          script.type = 'text/javascript',
+          script = document.createElement('script');
+          script.type = 'text/javascript';
           script.src = url;
 
       window[callback_name] = function(data) {
@@ -188,7 +188,7 @@
           caller = this,
           nonce = Date.now(),
           url = caller.url,
-          callback = caller.callback + '_' + nonce,
+          callback = caller.callback + '_' + nonce;
           caller.loading = true;
 
       var js_function = function(data) {
