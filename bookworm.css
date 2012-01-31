@@ -1,0 +1,43 @@
+body {
+  font-family: arial; sans-serif;
+}
+
+h1 {
+  display: none;
+}
+
+ul {
+  float: left;
+  list-style: none;
+}
+    
+li {
+  height: 206px;
+  margin-bottom: 10px;
+}
+
+li.header {
+  border-bottom: 1px solid #336699;
+  font-size: 16px;
+  font-style: italic;
+  height: auto;
+  margin-bottom: 5px;
+  text-transform: uppercase;	
+}
+
+label {
+  font-size: 26px;
+}
+
+input.search {
+  font-size: 20px;
+  width: 400px;
+}
+
+input.go {
+  font-size: 20px;
+}
+
+img {
+  height: 206px;
+}

@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="bookworm.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="bookworm.css" />
+</head>
+
+<body>
+  <form action="bookworm.html" method="get">
+    <label>Search Books: </label>
+    <input type="text" id="search" class="search" name="search" />
+  </form>
+  <h1 id="header">Google Book Search Results <span id="count"></span> - Showing 10 Results</h1>
+  <ul id="cover"></ul>
+  <ul id="isbn"></ul>
+  <ul id="title"></ul>
+  <ul id="author"></ul>
+  <script>
+    $(document).ready(function() {
+
+      $('#search').keydown(function(event) {
+
+      	if (event.keyCode === 13) {
+          
+          event.preventDefault();
+
+          var search = BookWorm($('#search').val()),
+              covers = [],
+              titles = [],
+              authors = [],
+              column = '';
+
+          search.load(function(response) {
+
+            $('#header').show();
+      	    $('#count').text('('+search.book_count()+')');
+      	
+      	    covers = search.book_covers();
+      	    isbns = search.book_isbns();
+            titles = search.book_titles();
+            authors = search.book_authors();
+
+            $('#cover').append('<li class="header">Cover</li>');
+            $.each(covers, function(index, value) {
+              column = '<li><img src="'+value+'"/></li>';
+              $('#cover').append(column);
+            });
+
+            $('#isbn').append('<li class="header">ISBN</li>');
+      	    $.each(isbns, function(index, value) {
+              column = '<li>'+value+'</li>';
+              $('#isbn').append(column);
+            });
+
+            $('#title').append('<li class="header">Title</li>');
+      	    $.each(titles, function(index, value) {
+              column = '<li>'+value+'</li>';
+              $('#title').append(column);
+            });
+
+            $('#author').append('<li class="header">Author</li>');
+            $.each(authors, function(index, value) {
+              column = '<li>'+value+'</li>';
+              $('#author').append(column);
+            });
+
+          });
+
+        }
+
+      });
+
+    });
+  </script>
+</body>
+</html>
